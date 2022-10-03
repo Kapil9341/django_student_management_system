@@ -7,69 +7,54 @@
 {% block main_content %}
 
 {% load static %}
+{% include 'error-sucess-messages.html' %}
 
-<section class="content">
-        <div class="container-fluid">
+  <div class="content">
+    <div class="container-fluid">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Add Course</h3>
+      <div class="row">
+         <div class="col-md-12 text-right">
+            <a href="{% url 'manage_course' %}" class="btn btn-rose"><b>Back</b></a>
+         </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-12">
+            <form role="form" method="POST" action="{% url 'add_course_save' %}" id="save-form">
+                {% csrf_token %}
+               <div class="card ">
+                  <div class="card-header card-header-rose card-header-icon">
+                    <div class="card-icon">
+                         <i class="material-icons">assignment</i>
                     </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form role="form" method="POST" action="{% url 'add_course_save' %}">
-                        {% csrf_token %}
-
-                        
-                                {% comment %} Display Messages {% endcomment %}
-                                {% if messages %}
-                                <div class="form-group">
-                                <div class="col-12">
-                                    {% for message in messages %}
-                                    {% if message.tags == "error" %}
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% elif message.tags == "success" %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                                </div>
-                                {% endif %}
-                            
-
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label>Course Name </label>
-                                <input type="text" class="form-control" name="course" placeholder="Enter Course">
-                            </div>
-
+                    <h4 class="card-title">Add Course</h4>
+                  </div>
+                  <div class="card-body ">
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label>First Name</label> -->
+                              <input type="text" class="form-control" name="course" placeholder="Course Name" required>
+                           </div>
                         </div>
-                        <!-- /.card-body -->
-
-                        <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add Course</button>
-                        </div>
-                    </form>
-                    </div>
-                    <!-- /.card -->
-
-                </div>
-            </div>
-
-        </div><!-- /.container-fluid -->
-      </section>
+                     </div>
+                  </div>
+                  <div class="card-footer">
+                     <button type="submit" class="btn btn-rose">Create</button>
+                  </div>
+               </div>
+            </form>
+        </div>
+    </div>
+  </div>
 
   {% endblock main_content %}
+
+  {% block custom_js %}
+    {% comment %} Checking if email and username already exists or not usin Ajax {% endcomment %}
+<script>
+    document.getElementById("course-add-li").classList.add("active");
+</script>
+    
+
+  {% endblock custom_js %}

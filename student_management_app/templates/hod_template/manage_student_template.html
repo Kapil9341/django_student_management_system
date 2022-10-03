@@ -1,115 +1,146 @@
 {% extends 'hod_template/base_template.html' %}
 
 {% block page_title %}
-    Manage Student
+    Manage Staff
 {% endblock page_title %}
 
 {% block main_content %}
 
 {% load static %}
+{% include 'error-sucess-messages.html' %}
+<div class="content">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <a href="{% url 'add_student' %}" class="btn btn-rose"><b>+ Create</b></a>
+        </div>
+      </div>
+      <div class="row">
 
-<section class="content">
-        <div class="container-fluid">
-
-            <a class="btn btn-primary" href="{% url 'add_student' %}" role="button">+ Add Student</a> <br/>&nbsp;
-            
-            {% if messages %}
-                                <div class="form-group">
-                                <div class="col-12">
-                                    {% for message in messages %}
-                                    {% if message.tags == "error" %}
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% elif message.tags == "success" %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                                </div>
-                                {% endif %}
-
-            <div class="row">
-
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Student Details</h3>
-
-                            <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                            <thead>
-                                <tr>
-                                <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Address</th>
-                                <th>Gender</th>
-                                <th>Profile Pic</th>
-                                <th>Start Year</th>
-                                <th>End Year</th>
-                                <th>Course</th>
-                                <th>Last Login</th>
-                                <th>Date Joined</th>
-                                <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for student in students %}
-                                <tr>
-                                <td>{{ student.admin.id }}</td>
-                                <td>{{ student.admin.first_name }}</td>
-                                <td>{{ student.admin.last_name }}</td>
-                                <td>{{ student.admin.username }}</td>
-                                <td>{{ student.admin.email }}</td>
-                                <td>{{ student.address }}</td>
-                                <td>{{ student.gender }}</td>
-                                <td> <img src="{{ student.profile_pic }}" style="width: 100px;" /> </td>
-                                <td>{{ student.session_year_id.session_start_year }}</td>
-                                <td>{{ student.session_year_id.session_end_year }}</td>
-                                <td>{{ student.course_id.course_name }}</td>
-                                <td>{{ student.admin.last_login }}</td>
-                                <td>{{ student.admin.date_joined }}</td>
-                                <td>
-                                    <a href="{% url 'edit_student' student.admin.id %}" class="btn btn-success">Edit</a> 
-                                    <a href="{% url 'delete_student' student.admin.id %}" class="btn btn-danger">Delete</a>
-                                </td>
-                                </tr>
-                                {% endfor %}
-                                
-                            </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                        </div>
-                    <!-- /.card -->
-
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-rose card-header-icon mb-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card-icon">
+                    <i class="material-icons">assignment</i>
+                  </div>
+                  <h4 class="card-title">All Students</h4>
                 </div>
+              </div>
+              
             </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table" id="datatables">
+                  <thead>
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>Address</th>
+                      <th>Gender</th>
+                      <th>Profile Pic</th>
+                      <th>Start Year</th>
+                      <th>End Year</th>
+                      <th>Course</th>
+                      <th>Last Login</th>
+                      <th>Date Joined</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                     {% for student in students %}
+                        <tr>
+                        <td>{{ student.admin.id }}</td>
+                        <td>{{ student.admin.first_name }}</td>
+                        <td>{{ student.admin.last_name }}</td>
+                        <td>{{ student.admin.username }}</td>
+                        <td>{{ student.admin.email }}</td>
+                        <td>{{ student.address }}</td>
+                        <td>{{ student.gender }}</td>
+                        <td> <img src="{{ student.profile_pic }}" style="width: 100px;" /> </td>
+                        <td>{{ student.session_year_id.session_start_year }}</td>
+                        <td>{{ student.session_year_id.session_end_year }}</td>
+                        <td>{{ student.course_id.course_name }}</td>
+                        <td>{{ student.admin.last_login }}</td>
+                        <td>{{ student.admin.date_joined }}</td>
+                        <td class="td-actions text-right">
+                        <a href="{% url 'edit_student' student.admin.id %}" rel="tooltip" class="btn btn-success">
+                          <i class="material-icons">edit</i>
+                        </a>
 
-        </div><!-- /.container-fluid -->
-      </section>
+                        <a href="javascript:;" onclick="deleteMyData('{{ student.admin.id }}');"  rel="tooltip" class="btn btn-danger">
+                          <i class="material-icons">close</i>
+                        </a>
+                        </td>
 
-  {% endblock main_content %}
+                </tr>
+                {% endfor %}
+                     
+                   
+                  </tbody>
+                </table>
+              </div>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  {% if students.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{ students.previous_page_number }}">Previous</a></li>
+                  {% endif %}
+                  {% if students.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ students.next_page_number }}">Next</a></li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("manage-student-li").classList.add("active");
+
+  var url = '{{ request.get_host }}';
+function deleteMyData(id)
+{
+    swal({
+    title: 'Are you sure?',
+    text: "Do you want to delete this chef!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-success',
+    cancelButtonClass: 'btn btn-danger',
+    confirmButtonText: 'Yes',
+    buttonsStyling: false
+
+    }).then(function() {
+        $.ajax({
+            url: '/delete_student/'+id+'/',
+            method:"get",
+        success:function(data)
+        { 
+            var message = 'Detail has been deleted successfully.';
+            demo.showNotification('bottom','right','success', message );
+            setTimeout(function(){
+               window.location.reload(1);
+            }, 1000);
+                              
+        },
+        error:function(er){
+            console.log(er); 
+        }
+
+    }); 
+
+    });
+}
+
+</script>
+{% endblock main_content %}

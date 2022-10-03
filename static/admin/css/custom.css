@@ -1,0 +1,150 @@
+a,
+a:hover {
+    color: #0072BB;
+}
+
+.sidebar .logo .simple-text.logo-normal {
+    color: #0072BB;
+    font-weight: 500;
+    text-transform: capitalize;
+    font-size: 28px;
+    line-height: 46px;
+}
+
+.sidebar .logo .simple-text span {
+    font-weight: bolder;
+}
+
+.para_desc {
+    font-weight: 500;
+}
+
+.register-page .card-signup {
+    margin-top: 0;
+    margin-bottom: 40px;
+}
+
+.card-footer.db_card_footer .stats {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.card-footer.db_card_footer .stats a {
+    font-weight: 600;
+}
+
+.navbar-brand img {
+    width: 140px;
+}
+
+.card .card-header.card-header-icon h4,
+.card .card-header .card-title {
+    font-weight: 600;
+}
+
+.table-shopping .img-container {
+    width: 80px;
+    max-height: 100px;
+}
+
+th.th-desc {
+    width: 360px;
+}
+
+.fileinput .thumbnail {
+    max-width: 120px;
+}
+
+.sidebar.ps.ps--active-y {
+    background-color: #E6F5FD;
+}
+
+
+/* .sidebar .logo, .sidebar .sidebar-wrapper{
+   background-color: #E6F5FD;
+} */
+
+.sidebar .logo,
+.sidebar .sidebar-wrapper {
+    background-color: gainsboro;
+}
+
+.sidebar li.active>a,
+.sidebar li.active>a:hover {
+    background-color: #0072BB;
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(0 114 187 / 40%);
+}
+
+.sidebar .nav i,
+.sidebar .nav p {
+    color: #0072BB;
+    font-weight: 500;
+}
+
+.sidebar .nav li.active>a p {
+    color: #fff;
+}
+
+.card.bg-rose,
+.card .card-header-rose .card-icon,
+.card .card-header-rose .card-text,
+.card .card-header-rose:not(.card-header-icon):not(.card-header-text),
+.card.card-rotate.bg-rose .back,
+.card.card-rotate.bg-rose .front {
+    background: #0072BB;
+    background: linear-gradient(60deg, #0072BB, #0072BB);
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu li>a:hover {
+    background: #0072BB;
+}
+
+.btn.btn-rose,
+.btn.btn-rose:hover,
+.btn.btn-rose:active,
+.btn.btn-rose:focus,
+.btn.btn-rose.active,
+.btn.btn-rose.focus,
+.btn.btn-rose:visited,
+.btn.btn-rose:target,
+.btn.btn-rose:focus-visible,
+.btn.btn-rose:focus-within {
+    background-color: #0072BB !important;
+    border-color: #0072BB !important;
+    box-shadow: 0 2px 2px 0 rgb(0 114 187 / 14%), 0 3px 1px -2px rgb(0 114 187 / 20%), 0 1px 5px 0 rgb(0 114 187 / 12%);
+}
+
+.card .card-header-rose .card-icon,
+.card .card-header-rose .card-text,
+.card .card-header-rose:not(.card-header-icon):not(.card-header-text) {
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(0 114 187 / 40%);
+}
+
+.alert.alert-rose {
+    background-color: #0072BB;
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(0 114 187 / 40%);
+}
+
+.alert.alert-rose i {
+    color: #0072BB;
+}
+
+.bootstrap-select .dropdown-item.active {
+    background: #0072BB;
+}
+
+.btn.btn-info {
+    background-color: #0072BB !important;
+    border-color: #0072BB !important;
+}
+
+.header-filter:before {
+    background: #E6F5FD !important;
+}
+
+.login_logo {
+    text-align: center;
+    margin-bottom: 60px;
+}

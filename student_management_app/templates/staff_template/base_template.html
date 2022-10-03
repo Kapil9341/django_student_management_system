@@ -1,157 +1,114 @@
 {% load static %}
 
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Student Management System | Staff Dashboard</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title> Staff Management System | Dashboard</title>
+  <meta name="csrf-token" content="{% csrf_token %}
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  
+  <!-- Fonts and icons -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static "fontawesome-free/css/all.min.css" %}">
-  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="{% static 'tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="{% static "icheck-bootstrap/icheck-bootstrap.min.css" %}">
+  <link rel="stylesheet" href="{% static 'admin/css/font-awesome.min.css' %}">
+  <!-- CSS Files -->
+  <link href="{% static 'admin/css/dashboard.min6c54.css' %}" rel="stylesheet"/>
+  <link href="{% static 'admin/css/custom.css' %}" rel="stylesheet"/>
   <!-- JQVMap -->
-  <link rel="stylesheet" href="{% static "jqvmap/jqvmap.min.css" %}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'  %}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{% static "overlayScrollbars/css/OverlayScrollbars.min.css" %}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{% static "daterangepicker/daterangepicker.css" %}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{% static "summernote/summernote-bs4.css" %}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'jqvmap/jqvmap.min.css' %}">
+  <!--  CSS for Demo Purpose, don't include it in your project     -->
+  <link href="{% static 'admin/css/demo.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
 
     {% comment %} For Custom CSS {% endcomment %}
-
+ 
     {% block custom_css %}
     {% endblock custom_css %}
 
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="">
   <div class="wrapper">
-
-  <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-      </ul>
-
-      <h4 style="margin-left: 10px; margin-top: 5px;">Student Management System | Staff Dashboard</h4>
-
-      <ul class="navbar-nav ml-auto">
-      
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-          <i class="fas fa-cog"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-          
-          <a href="{% url 'staff_profile' %}" class="dropdown-item">
-            <i class="fas fa-user-edit mr-2"></i> Update Profile
-          </a>
-          
-          <div class="dropdown-divider"></div>
-          <a href="{% url 'logout_user' %}" class="dropdown-item">
-            <i class="fas fa-power-off mr-2"></i> Logout
-          </a>
-          <div class="dropdown-divider"></div>
-        </div>
-      </li>
-    </ul>
-
-    </nav>
-    <!-- /.navbar -->
-
-    <!-- Main Sidebar Container -->
+    <!-- sidebar start here -->
     {% include 'staff_template/sidebar_template.html' with user=user id=id %}
+    <!-- sidebar end here -->
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-
-    <!-- Content Header (Page header) -->
-      <div class="content-header">
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1 class="m-0 text-dark">
-                {% block page_title %}
-                {% endblock page_title %}
-              </h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Home</a></li>
-              </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-      </div>
-      <!-- /.content-header -->
+          <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+              <button id="minimizeSidebar" class="btn btn-just-icon btn-white btn-fab btn-round">
+                <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
+                <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
+              </button>
+            </div>
+            <!-- <a class="navbar-brand" href="dashboard.php">
+              <img src="{% static 'admin/img/logo.png' %}" alt="logo">
+            </a> -->
+            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="notifications.php" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="{% url 'staff_profile' %}">Profile</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'logout_user' %}">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <!-- End Navbar -->
 
-      <!-- Main content -->
-      {% block main_content %}
-      {% endblock main_content %}
-      <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
     {% include 'staff_template/footer.html' %}
+    <!-- /.content -->
 
-    
+    {% comment %} For Custom JS {% endcomment %}
+    {% block custom_js %}
+    {% endblock custom_js %}
+
+    <!-- Main content -->
+    {% block main_content %}
+    {% endblock main_content %}
+    <!-- Main content -->
+
+    </div>
   </div>
-  <!-- ./wrapper -->
-
-
-<!-- jQuery -->
-<script src="{% static "jquery/jquery.min.js"  %}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{% static "jquery-ui/jquery-ui.min.js"  %}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="{% static "bootstrap/js/bootstrap.bundle.min.js"  %}"></script>
-<!-- ChartJS -->
-<script src="{% static "chart.js/Chart.min.js"  %}"></script>
-<!-- Sparkline -->
-<script src="{% static "sparklines/sparkline.js"  %}"></script>
-<!-- JQVMap -->
-<script src="{% static "jqvmap/jquery.vmap.min.js"  %}"></script>
-<script src="{% static "jqvmap/maps/jquery.vmap.usa.js"  %}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{% static "jquery-knob/jquery.knob.min.js"  %}"></script>
-<!-- daterangepicker -->
-<script src="{% static "moment/moment.min.js"  %}"></script>
-<script src="{% static "daterangepicker/daterangepicker.js"  %}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{% static "tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"  %}"></script>
-<!-- Summernote -->
-<script src="{% static "summernote/summernote-bs4.min.js"  %}"></script>
-<!-- overlayScrollbars -->
-<script src="{% static "overlayScrollbars/js/jquery.overlayScrollbars.min.js"  %}"></script>
-<!-- AdminLTE App -->
-<script src="{% static 'dist/js/adminlte.js'  %}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{% static 'dist/js/pages/dashboard.js'  %}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{% static 'dist/js/demo.js'  %}"></script>
-
-{% comment %} For Custom JS {% endcomment %}
-{% block custom_js %}
-{% endblock custom_js %}
-
-</body>
-</html>

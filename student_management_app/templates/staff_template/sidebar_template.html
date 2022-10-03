@@ -1,100 +1,83 @@
 {% load static %}
 
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <!-- Brand Logo -->
-      <a href="{% url 'staff_home' %}" class="brand-link">
-        <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
-        <span class="brand-text font-weight-light">Open University</span>
+<style>
+  .sidebar .logo a.logo-mini {
+    margin-top: 8px!important;
+}
+</style>
+ <div class="sidebar">
+  {% comment %} <div class="logo">
+   <a href="{% url 'admin_home' %}" class="simple-text logo-mini">
+      <img src="{% static 'admin/img/logo.png' %}" alt="">
+
+    </a>
+    <a href="dashboard.php" class="simple-text logo-normal">
+      <span>M</span> Panel 
+    </a>
+  </div> {% endcomment %}
+      <div class="logo">
+        <a href="http://www.creative-tim.com/" class="simple-text logo-mini">
+        SP   
       </a>
+      <a href="dashboard.php" class="simple-text logo-normal">
+        <span>Staff</span> Panel 
+      </a></div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item {% if request.path == student_home %} active {% endif %}" id="dashboard-li">
+            {% url 'student_home' as student_home %}
+            <a class="nav-link" href="{{ student_home }}">
+              <i class="material-icons">dashboard</i>
+              <p> Dashboard </p>
+            </a>
+          </li>
+          <li class="nav-item {% if request.path == staff_take_attendance %} active {% endif %}" id="take-attendance-li">
+            {% url 'staff_take_attendance' as staff_take_attendance %}
+            <a class="nav-link" href="{{ staff_take_attendance }}">
+              <i class="fa fa-users" aria-hidden="true"></i>
+              <p>Take Attendance</p>
+            </a>
+          </li>
 
-      <!-- Sidebar -->
-      <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-          <div class="image">
-            <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
-          </div>
-          <div class="info">
-            <a href="{% url 'staff_profile' %}" class="d-block">{{ user.first_name }} {{ user.last_name }}</a>
-          </div>
-        </div>
+          <li class="nav-item {% if request.path == staff_update_attendance %} active {% endif %}" id="update-attendance-li">
+            {% url 'staff_update_attendance' as staff_update_attendance %}
+            <a class="nav-link" href="{{ staff_update_attendance }}">
+              <i class="fa fa-users" aria-hidden="true"></i>
+              <p>View Update Attendance</p>
+            </a>
+          </li>
 
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
-            
-            <li class="nav-item">
-              {% url 'staff_home' as staff_home %}
-              <a href="{{ staff_home }}" class="nav-link {% if request.path == staff_home %} active {% endif %}">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                  Home
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
+          <li class="nav-item {% if request.path == staff_add_result %} active {% endif %}" id="add-result-li">
+            {% url 'staff_add_result' as staff_add_result %}
+            <a class="nav-link" href="{{ staff_add_result }}">
+              <i class="material-icons">person</i>
+              <p> Add Result </p>
+            </a>
+          </li>
 
-            <li class="nav-item">
-              {% url 'staff_take_attendance' as staff_take_attendance %}
-              <a href="{{ staff_take_attendance }}" class="nav-link {% if request.path == staff_take_attendance %} active {% endif %}">
-                <i class="nav-icon fas fa-calendar-plus"></i>
-                <p>
-                  Take Attendance
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
+          <li class="nav-item {% if request.path == staff_apply_leave %} active {% endif %}" id="staff-apply-leave-li">
+            {% url 'staff_apply_leave' as staff_apply_leave %}
+            <a class="nav-link" href="{{ staff_apply_leave }}">
+              <i class="material-icons">person</i>
+              <p> Apply Leave </p>
+            </a>
+          </li>
 
-            <li class="nav-item">
-              {% url 'staff_update_attendance' as staff_update_attendance %}
-              <a href="{{ staff_update_attendance }}" class="nav-link {% if request.path == staff_update_attendance %} active {% endif %}">
-                <i class="nav-icon fas fa-calendar-alt"></i>
-                <p>
-                  View Update Attendance
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
+          <li class="nav-item {% if request.path == staff_feedback %} active {% endif %}" id="staff-feedback-li">
+            {% url 'staff_feedback' as staff_feedback %}
+            <a class="nav-link" href="{{ staff_feedback }}">
+              <i class="material-icons">person</i>
+              <p> Feedback </p>
+            </a>
+          </li>
 
-            <li class="nav-item">
-              {% url 'staff_add_result' as staff_add_result %}
-              <a href="{{ staff_add_result }}" class="nav-link {% if request.path == staff_add_result %} active {% endif %}">
-                <i class="nav-icon fas fa-tasks"></i>
-                <p>
-                  Add Result
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              {% url 'staff_apply_leave' as staff_apply_leave %}
-              <a href="{{ staff_apply_leave }}" class="nav-link {% if request.path == staff_apply_leave %} active {% endif %}">
-                <i class="nav-icon fas fa-envelope-open-text"></i>
-                <p>
-                  Apply Leave
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              {% url 'staff_feedback' as staff_feedback %}
-              <a href="{{ staff_feedback }}" class="nav-link {% if request.path == staff_feedback %} active {% endif %}">
-                <i class="nav-icon fas fa-comments"></i>
-                <p>
-                  Feedback
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
-
-          </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_user' %}">
+              <i class="material-icons">logout</i>
+              <p>Log Out</p>
+            </a>
+          </li>
+        </ul>
       </div>
-      <!-- /.sidebar -->
-    </aside>
+      <div class="sidebar-background"></div>
+    </div>

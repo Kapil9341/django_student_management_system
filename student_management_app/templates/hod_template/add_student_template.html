@@ -7,36 +7,122 @@
 {% block main_content %}
 
 {% load static %}
+{% include 'error-sucess-messages.html' %}
 
-<section class="content">
-        <div class="container-fluid">
+<div class="content">
+  <div class="content">
+    <div class="container-fluid">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Add Student</h3>
+      <div class="row">
+         <div class="col-md-12 text-right">
+            <a href="{% url 'manage_student' %}" class="btn btn-rose"><b>Back</b></a>
+         </div>
+      </div>
+      <div class="row">
+
+         <div class="col-md-12">
+            <form role="form" method="POST" action="{% url 'add_student_save' %}" id="save-form">
+                {% csrf_token %}
+               <div class="card ">
+                  <div class="card-header card-header-rose card-header-icon">
+                    <div class="card-icon">
+                         <i class="material-icons">assignment</i>
                     </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    {% url 'add_student_save' as action_path %}
-                    {% include 'hod_template/form_template.html' with messages=messages form=form action_path=action_path button_text="Add Student" %}
+                    <h4 class="card-title">Add Student</h4>
+                  </div>
+                  <div class="card-body ">
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label>First Name</label> -->
+                              <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                               <!--  <label>Last Name</label> -->
+                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label for="email"> Email Address *</label> -->
+                              <input type="email" class="form-control" name="email" placeholder="Enter email" id="id_email" required>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label class="username">Username</label> -->
+                              <input type="text" class="form-control" name="username" placeholder="Username" id="id_username" required>
+                           </div> 
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label>Password</label> -->
+                              <input type="password" class="form-control" name="password" placeholder="Password" required>
+                           </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                             <select name="course_id" id="course_id" class="form-control" placeholder="Course List">
+                                <option value="">Select Course</option>
+                                {% for course in course_list %}
+                                 <option value="{{course.id}}">{{course.course_name}}</option>
+                                {% endfor %}
+                             </select>
+                             </div>
+                        </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                             <select name="session_year_id" id="session_year_id" class="form-control" placeholder="Course List">
+                                <option value="">Select Session Year</option>
+                                {% for year in session_years %}
+                                 <option value="{{year.id}}">{{year.session_start_year}} to {{year.session_end_year}}</option>
+                                {% endfor %}
+                             </select>
+                             </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                             <select name="gender" id="gender_id" class="form-control" placeholder="Gender">
+                                <option value="">Select Gender</option>
+                                 <option value="Male">Male</option>
+                                 <option value="Female">Female</option>
+                             </select>
+                             </div>
+                        </div>
+
+                       
+                     </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                         <label>Address</label>
+                         <textarea class="form-control" name="address"  required></textarea>
                     </div>
-                    <!-- /.card -->
+                 </div>
+                  <div class="card-footer">
+                     <button type="submit" class="btn btn-rose">Create</button>
+                  </div>
+               </div>
+            </form>
+         </div>
 
-                </div>
-            </div>
-
-        </div><!-- /.container-fluid -->
-      </section>
+      </div>
+    </div>
+  </div>
+</div>
 
   {% endblock main_content %}
 
   {% block custom_js %}
     {% comment %} Checking if email and username already exists or not usin Ajax {% endcomment %}
-
+    <script>
+        document.getElementById("student-add-li").classList.add("active");
+      </script>
     <script>
         $(document).ready(function(){
             // keyup event will be triggered when user leaves keyboard

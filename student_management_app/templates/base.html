@@ -1,43 +1,55 @@
 {% load static %}
 
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Student Management System | Dashboard</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static "fontawesome-free/css/all.min.css" %}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="{% static 'tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="{% static "icheck-bootstrap/icheck-bootstrap.min.css" %}">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="{% static "jqvmap/jqvmap.min.css" %}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'  %}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{% static "overlayScrollbars/css/OverlayScrollbars.min.css" %}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{% static "daterangepicker/daterangepicker.css" %}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{% static "summernote/summernote-bs4.css" %}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
-
-</head>
-
-
+    <meta charset="utf-8" />
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />  
+    <title>Student Management System | Dashboard</title> 
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <!-- Bootstrap core CSS     -->
+    <!-- Fonts and icons -->
+    <link rel="stylesheet" href="{% static "fontawesome-free/css/all.min.css" %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="{% static 'tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{% static "icheck-bootstrap/icheck-bootstrap.min.css" %}">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="{% static "jqvmap/jqvmap.min.css" %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'  %}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{% static "overlayScrollbars/css/OverlayScrollbars.min.css" %}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="{% static "daterangepicker/daterangepicker.css" %}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{% static "summernote/summernote-bs4.css" %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
+    <style type="text/css">
+      .dropdown-menu.open {
+          z-index: 999999;
+      }
+    </style>
+    <script src="{% static 'admin/js/custom.js' %}"></script>
+    <script src="https://cdn.ckeditor.com/4.15.0/full-all/ckeditor.js"></script>
+    <script type="text/javascript">
+      var siteurl = "/";
+      CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
+      CKEDITOR.config.extraPlugins = 'easyimage';
+    </script>
+</head> 
 
 {% block content %}
 
 
 {% endblock %}
+
 
 <!-- jQuery -->
 <script src="{% static "jquery/jquery.min.js"  %}"></script>
@@ -75,3 +87,20 @@
 <script src="{% static 'dist/js/demo.js'  %}"></script>
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    demo.checkFullPageBackgroundImage();
+    setTimeout(function() {
+        // after 1000 ms we add the class animated to the login/register card
+        $('.card').removeClass('card-hidden');
+    }, 700)
+});
+
+$(document).ready(function () {
+  $('.numbers').keyup(function () { 
+    this.value = this.value.replace(/[^0-9\.]/g,'');
+   });
+});
+</script>
+</html>            

@@ -7,90 +7,81 @@
 {% block main_content %}
 
 {% load static %}
+{% include 'error-sucess-messages.html' %}
+<div class="content">
+  <div class="content">
+    <div class="container-fluid">
 
-<section class="content">
-        <div class="container-fluid">
+      <div class="row">
+         <div class="col-md-12 text-right">
+            <a href="{% url 'manage_subject' %}" class="btn btn-rose"><b>Back</b></a>
+         </div>
+      </div>
+      <div class="row">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Edit Subject</h3>
+         <div class="col-md-12">
+            <form role="form" method="POST" action="{% url 'edit_subject_save' %}" id="save-form">
+                {% csrf_token %}
+               <div class="card ">
+                  <div class="card-header card-header-rose card-header-icon">
+                    <div class="card-icon">
+                         <i class="material-icons">assignment</i>
                     </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form role="form" method="POST" action="{% url 'edit_subject_save' %}">
-                        {% csrf_token %}
-
+                    <h4 class="card-title">Edit Subject</h4>
+                  </div>
+                  <div class="card-body ">
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label>First Name</label> -->
+                              <input type="text" class="form-control" name="subject" value="{{ subject.subject_name }}" placeholder="Subject Name" required>
+                           </div>
+                        </div>
                         
-                                {% comment %} Display Messages {% endcomment %}
-                                {% if messages %}
-                                <div class="form-group">
-                                <div class="col-12">
-                                    {% for message in messages %}
-                                    {% if message.tags == "error" %}
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% elif message.tags == "success" %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                                </div>
-                                {% endif %}
-                            
-
-                        <div class="card-body">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label>Subject Name </label>
-                                <input type="text" class="form-control" name="subject" value="{{ subject.subject_name }}">
-                            </div>
+                             <select name="course" id="course_id" class="form-control" placeholder="Course List">
+                                <option value="">Select Course</option>
+                                {% for course in courses %}
+                                 <option value="{{course.id}}" {% if course.id == subject.course_id.id %} selected {% endif %}>{{course.course_name}}</option>
+                                {% endfor %}
+                             </select>
+                             </div>
+                        </div>
 
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label>Course </label>
-                                <select class="form-control" name="course">
-                                    {% for course in courses %}
-                                        <option value="{{ course.id }}" {% if course.id == subject.course_id.id %} selected {% endif %}>{{ course.course_name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Staff </label>
+                                <!--  <label>Last Name</label> -->
                                 <select class="form-control" name="staff">
+                                    <option value="">Select Staff</option>
                                     {% for staff in staffs %}
-                                        <option value="{{ staff.id }}" {% if staff.id == subject.staff_id.id %} selected {% endif %}>{{ staff.first_name }} {{ staff.last_name }}</option>
+                                       <option value="{{ staff.id }}" {% if staff.id == subject.staff_id.id %} selected {% endif %}>{{ staff.first_name }} {{ staff.last_name }}</option>
                                     {% endfor %}
                                 </select>
-                                
                                 <input type="hidden" name="subject_id" value="{{ subject.id }}" />
                             </div>
+                         </div>
+                     </div>
+                  </div>
+                  <div class="card-footer">
+                     <button type="submit" class="btn btn-rose">Update</button>
+                  </div>
+               </div>
+            </form>
+         </div>
 
-                        </div>
-                        <!-- /.card-body -->
+      </div>
+    </div>
+  </div>
+</div>
 
-                        <div class="card-footer">
-                        
-                        <button type="submit" class="btn btn-primary">Update Subject</button>
-                        </div>
-                    </form>
-                    </div>
-                    <!-- /.card -->
+{% endblock main_content %}
 
-                </div>
-            </div>
+  {% block custom_js %}
+    {% comment %} Checking if email and username already exists or not usin Ajax {% endcomment %}
+   <script>
+        document.getElementById("subject-li").classList.add("active");
+   </script>
+    
 
-        </div><!-- /.container-fluid -->
-      </section>
-
-  {% endblock main_content %}
+  {% endblock custom_js %}

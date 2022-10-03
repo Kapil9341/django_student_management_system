@@ -8,170 +8,208 @@
 
 {% load static %}
 
-<section class="content">
-        <div class="container-fluid">
+{% include 'error-sucess-messages.html' %}
+<div class="content">
+  <div class="content">
+    <div class="container-fluid">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Add Staff</h3>
+      <div class="row">
+         <div class="col-md-12 text-right">
+            <a href="{% url 'manage_staff' %}" class="btn btn-rose"><b>Back</b></a>
+         </div>
+      </div>
+      <div class="row">
+
+         <div class="col-md-12">
+            <form role="form" method="POST" action="{% url 'add_staff_save' %}" id="save-form">
+                {% csrf_token %}
+               <div class="card ">
+                  <div class="card-header card-header-rose card-header-icon">
+                    <div class="card-icon">
+                         <i class="material-icons">assignment</i>
                     </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form role="form" method="POST" action="{% url 'add_staff_save' %}">
-                        {% csrf_token %}
-
+                    <h4 class="card-title">Add Staff</h4>
+                  </div>
+                  <div class="card-body ">
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label>First Name</label> -->
+                              <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                               <!--  <label>Last Name</label> -->
+                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label for="email"> Email Address *</label> -->
+                              <input type="email" class="form-control" name="email" placeholder="Enter email" id="id_email" required>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label class="username">Username</label> -->
+                              <input type="text" class="form-control" name="username" placeholder="Username" id="id_username" required>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <!-- <label>Password</label> -->
+                              <input type="password" class="form-control" name="password" placeholder="Password" required>
+                           </div>
+                        </div>
                         
-                                {% comment %} Display Messages {% endcomment %}
-                                {% if messages %}
-                                <div class="form-group">
-                                <div class="col-12">
-                                    {% for message in messages %}
-                                    {% if message.tags == "error" %}
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% elif message.tags == "success" %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                                </div>
-                                {% endif %}
-                            
-
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label>Email address</label>
-                                <input type="email" class="form-control" name="email" placeholder="Enter email" id="id_email">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Username</label>
-                                <input type="text" class="form-control" name="username" placeholder="Username" id="id_username">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password">
-                            </div>
-
-                            <div class="form-group">
-                                <label>First Name</label>
-                                <input type="text" class="form-control" name="first_name" placeholder="First Name">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Last Name</label>
-                                <input type="text" class="form-control" name="last_name" placeholder="Last Name">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Address</label>
-                                <textarea class="form-control" name="address" placeholder="Address"></textarea>
-                            </div>
-
-                            
-
-
+                        <div class="col-md-6">
+                           <div class="form-group">
+                                <!-- <label>Address</label> -->
+                                <textarea class="form-control" name="address" placeholder="Address" required></textarea>
+                           </div>
                         </div>
-                        <!-- /.card-body -->
+                     </div>
+                  </div>
+                  <div class="card-footer">
+                     <button type="submit" class="btn btn-rose">Create</button>
+                  </div>
+               </div>
+            </form>
+         </div>
 
-                        <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Add Staff</button>
-                        </div>
-                    </form>
-                    </div>
-                    <!-- /.card -->
-
-                </div>
-            </div>
-
-        </div><!-- /.container-fluid -->
-      </section>
-
+      </div>
+    </div>
+  </div>
+</div>
   {% endblock main_content %}
 
     {% block custom_js %}
     {% comment %} Checking if email and username already exists or not usin Ajax {% endcomment %}
 
-    <script>
-        $(document).ready(function(){
-            // keyup event will be triggered when user leaves keyboard
-            $("#id_email").keyup(function(){
-                var email = $(this).val();
+<script>
+  document.getElementById("staff-add-li").classList.add("active");
+</script>
+<script>
 
-                if(email!=""){
-                    $.ajax({
-                        url : '{% url 'check_email_exist' %}',
-                        type : 'POST',
-                        data : {email:email}
-                    })
-                    .done(function(response){
-                        //console.log(response);
+    $(document).ready(function(){
+        // keyup event will be triggered when user leaves keyboard
+        $("#id_email").keyup(function(){
+        var email = $(this).val();
+        if(email.length==0){
+            $(".email_error").remove();
+            $("<span class='email_error' style='color: red; padding: 5px; font-weight: bold;'>Please Enter Email Address. </span>").insertAfter("#id_email");
+        }else{
+            var check = validateEmail(email);
+            if(check == false){
+              $(".email_error").remove();
+              $("<span class='email_error' style='color: red; padding: 5px; font-weight: bold;'>Please Enter Valid Email Address. </span>").insertAfter("#id_email");
+        }else{
 
-                        if(response == "True"){
-                            $(".email_error").remove();
-                            $("<span class='email_error' style='color: red; padding: 5px; font-weight: bold;'> Email Not Available. </span>").insertAfter("#id_email")
-                        }
-                        else{
-                            $(".email_error").remove();
-                            $("<span class='email_error' style='color: green; padding: 5px; font-weight: bold;'> Email Available. </span>").insertAfter("#id_email")
-                        }
-                    })
+            if(email!=""){
+                $.ajax({
+                    url : '{% url 'check_email_exist' %}',
+                    type : 'POST',
+                    data : {email:email}
+                })
+                .done(function(response){
+                    //console.log(response);
 
-                    .fail(function(){
-                        console.log("Failed");
-                    })
-                }
-                else{
-                    $(".email_error").remove();
-                }
-                
-            })
+                    if(response == "True"){
+                        $(".email_error").remove();
+                        $("<span class='email_error' style='color: red; padding: 5px; font-weight: bold;'> Email Already Exist. </span>").insertAfter("#id_email")
+                    } 
+                    else{
+                        $(".email_error").remove();
+                        $("<span class='email_error' style='color: green; padding: 5px; font-weight: bold;'> Valid Email. </span>").insertAfter("#id_email")
+                    }
+                })
 
-            $("#id_username").keyup(function(){
-                var username = $(this).val();
-                
-                if(username!=""){
-                    $.ajax({
-                        url : '{% url 'check_username_exist' %}',
-                        type : 'POST',
-                        data : {username:username}
-                    })
-                    .done(function(response){
-                        //console.log(response);
-
-                        if(response == "True"){
-                            $(".username_error").remove();
-                            $("<span class='username_error' style='color: red; padding: 5px; font-weight: bold;'> Username Not Available. </span>").insertAfter("#id_username")
-                        }
-                        else{
-                            $(".username_error").remove();
-                            $("<span class='username_error' style='color: green; padding: 5px; font-weight: bold;'> Username Available. </span>").insertAfter("#id_username")
-                        }
-                    })
-
-                    .fail(function(){
-                        console.log("Failed");
-                    })
-                }
-                else{
-                    $(".username_error").remove();
-                }
-                
-            })
+                .fail(function(){
+                    console.log("Failed");
+                })
+            }
+            else{
+                $(".email_error").remove();
+            }
+        }
+        }
+            
         })
-    </script>
+
+        $("#id_username").keyup(function(){
+            var username = $(this).val();
+            
+            if(username!=""){
+                $.ajax({
+                    url : '{% url 'check_username_exist' %}',
+                    type : 'POST',
+                    data : {username:username}
+                })
+                .done(function(response){
+                    //console.log(response);
+                    if(response == "True"){
+                        $(".username_error").remove();
+                        $("<span class='username_error' style='color: red; padding: 5px; font-weight: bold;'> Username Already Exist. </span>").insertAfter("#id_username")
+                    }
+                    else{
+                        $(".username_error").remove();
+                        $("<span class='username_error' style='color: green; padding: 5px; font-weight: bold;'> Username Available. </span>").insertAfter("#id_username")
+                    }
+                })
+
+                .fail(function(){
+                    console.log("Failed");
+                })
+            }
+            else{
+                $(".username_error").remove();
+            }
+            
+        })
+    })  
+
+ function validateEmail(email) {
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
+  return regex.test(email);
+}
+
+
+
+/*  $(document).on('submit', '#save-form, #edit-form', function (e) {
+e.preventDefault();
+var image = $('input[name="image"]');
+var url = $(this).attr('action'),
+alert(url);
+post = $(this).attr('method'),
+formData = new FormData(this);
+formData.append('file', image);
+$('button[type="submit"]').attr('disabled',true);
+$.ajax({
+    url: url,
+    method: post,
+    data: formData,       
+    success:function(response)
+    {
+        //console.log(response.redirect_url);
+        $('button[type="submit"]').attr('disabled',false);
+        if(response.status=='error')
+        {
+            demo.showNotification('bottom','right','danger', response.msg); 
+        }else{
+            demo.showNotification('bottom','right','success', response.msg); 
+            //setTimeout(function(){ location.reload(); }, 1000);
+            //window.location.href= response.redirect_url;
+        }  
+    },
+    error:function(response){
+        $('button[type="submit"]').attr('disabled',false);
+        demo.showNotification('bottom','right','danger', response.msg);
+    },
+    processData: false,
+    contentType: false
+});
+});*/
+</script>
 
   {% endblock custom_js %}

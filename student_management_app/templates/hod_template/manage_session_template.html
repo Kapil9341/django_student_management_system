@@ -7,88 +7,107 @@
 {% block main_content %}
 
 {% load static %}
+{% include 'error-sucess-messages.html' %}
+<div class="content">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <a href="{% url 'add_session' %}" class="btn btn-rose"><b>+ Create</b></a>
+        </div>
+      </div>
+      <div class="row">
 
-<section class="content">
-        <div class="container-fluid">
-
-            <a class="btn btn-primary" href="{% url 'add_session' %}" role="button">+ Add Session</a> <br/>&nbsp;
-
-            {% if messages %}
-                                <div class="form-group">
-                                <div class="col-12">
-                                    {% for message in messages %}
-                                    {% if message.tags == "error" %}
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% elif message.tags == "success" %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                                </div>
-                                {% endif %}
-
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Session Details</h3>
-
-                            <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                            <thead>
-                                <tr>
-                                <th>ID</th>
-                                <th>Session Start Year</th>
-                                <th>Session End Year</th>
-                                <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for session_year in session_years %}
-                                <tr>
-                                <td>{{ session_year.id }}</td>
-                                <td>{{ session_year.session_start_year }}</td>
-                                <td>{{ session_year.session_end_year }}</td>
-                                <td>
-                                    <a href="{% url 'edit_session' session_year.id %}" class="btn btn-success">Edit</a> 
-                                    <a href="{% url 'delete_session' session_year.id %}" class="btn btn-danger">Delete</a>
-                                </td>
-                                </tr>
-                                {% endfor %}
-                                
-                            </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                        </div>
-                    <!-- /.card -->
-
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-rose card-header-icon mb-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card-icon">
+                    <i class="material-icons">assignment</i>
+                  </div>
+                  <h4 class="card-title">Session Details</h4>
                 </div>
+              </div>
+              
             </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table" id="datatables">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Session Start Year</th>
+                      <th>Session End Year</th>
+                      <th class="text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for session_year in session_years %}
+                    <tr>
+                        <td>{{ session_year.id }}</td>
+                        <td>{{ session_year.session_start_year }}</td>
+                        <td>{{ session_year.session_end_year }}</td>
+                        <td class="td-actions text-right">
+                        <a href="{% url 'edit_session' session_year.id %}" rel="tooltip" class="btn btn-success">
+                          <i class="material-icons">edit</i>
+                        </a>
+                        <a href="javascript:;" onclick="deleteMyData('{{ session_year.id }}');"  rel="tooltip" class="btn btn-danger">
+                          <i class="material-icons">close</i>
+                        </a>
+                        </td>
+                     </tr>
+                    {% endfor %}
+                     
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        </div><!-- /.container-fluid -->
-      </section>
+      </div>
+    </div>
+  </div>
+</div>
 
-  {% endblock main_content %}
+<script>
+  document.getElementById("session-li").classList.add("active");
+
+  var url = '{{ request.get_host }}';
+function deleteMyData(id)
+{
+    swal({
+    title: 'Are you sure?',
+    text: "Do you want to delete this session!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-success',
+    cancelButtonClass: 'btn btn-danger',
+    confirmButtonText: 'Yes',
+    buttonsStyling: false
+
+    }).then(function() {
+        $.ajax({
+            url: '/delete_session/'+id+'/',
+            method:"get",
+        success:function(data)
+        { 
+            var message = 'Detail has been deleted successfully.';
+            demo.showNotification('bottom','right','success', message );
+            setTimeout(function(){
+               window.location.reload(1);
+            }, 1000);
+                              
+        },
+        error:function(er){
+            console.log(er); 
+        }
+
+    }); 
+
+    });
+}
+
+</script>
+{% endblock main_content %}

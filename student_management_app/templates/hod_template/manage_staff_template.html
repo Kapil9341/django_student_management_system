@@ -8,99 +8,148 @@
 
 {% load static %}
 
-<section class="content">
-        <div class="container-fluid">
+<div class="content">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 text-right">
+            <!-- <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-            <a class="btn btn-primary" href="{% url 'add_staff' %}" role="button">+ Add Staff</a> <br/>&nbsp;
-
-            {% if messages %}
-                                <div class="form-group">
-                                <div class="col-12">
-                                    {% for message in messages %}
-                                    {% if message.tags == "error" %}
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% elif message.tags == "success" %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                                </div>
-                                {% endif %}
-                                
-
-            <div class="row">
-
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Staff Details</h3>
-
-                            <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                            <thead>
-                                <tr>
-                                <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Address</th>
-                                <th>Last Login</th>
-                                <th>Date Joined</th>
-                                <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for staff in staffs %}
-                                <tr>
-                                <td>{{ staff.admin.id }}</td>
-                                <td>{{ staff.admin.first_name }}</td>
-                                <td>{{ staff.admin.last_name }}</td>
-                                <td>{{ staff.admin.username }}</td>
-                                <td>{{ staff.admin.email }}</td>
-                                <td>{{ staff.address }}</td>
-                                <td>{{ staff.admin.last_login }}</td>
-                                <td>{{ staff.admin.date_joined }}</td>
-                                <td>
-                                    <a href="{% url 'edit_staff' staff.admin.id %}" class="btn btn-success">Edit</a> 
-                                    <a href="{% url 'delete_staff' staff.admin.id %}" class="btn btn-danger">Delete</a>
-                                </td>
-                                </tr>
-                                {% endfor %}
-                                
-                            </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                        </div>
-                    <!-- /.card -->
-
+                    <div class="input-group-append">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
                 </div>
+            </div> -->
+          <a href="{% url 'add_staff' %}" class="btn btn-rose"><b>+ Add</b></a>
+        </div>
+      </div>
+      <div class="row">
+        {% if messages %}
+            <div class="form-group">
+            <div class="col-12">
+                {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                {% elif message.tags == "success" %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                {% endif %}
+                {% endfor %}
             </div>
+            </div>
+        {% endif %}
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-rose card-header-icon">
+              <div class="card-icon">
+                 <i class="material-icons">assignment</i>
+              </div>
+              
+              <h4 class="card-title">Staff Details</h4>
 
-        </div><!-- /.container-fluid -->
-      </section>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Last Login</th>
+                        <th>Date Joined</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                      {% for staff in staffs %}
+                        <tr>
+                        <td>{{ staff.admin.id }}</td>
+                        <td>{{ staff.admin.first_name }}</td>
+                        <td>{{ staff.admin.last_name }}</td>
+                        <td>{{ staff.admin.username }}</td>
+                        <td>{{ staff.admin.email }}</td>
+                        <td>{{ staff.address }}</td>
+                        <td>{{ staff.admin.last_login }}</td>
+                        <td>{{ staff.admin.date_joined }}</td>
+                        <td class="td-actions text-right">
+                          <a href="{% url 'edit_staff' staff.admin.id %}" rel="tooltip" class="btn btn-success">
+                            <i class="material-icons">edit</i>
+                          </a>
+                            <a href="javascript:;" onclick="deleteMyData('{{ staff.admin.id }}');"  rel="tooltip" class="btn btn-danger">
+                              <i class="material-icons">close</i>
+                            </a>
+                            <a href="{% url 'delete_staff' staff.admin.id %}" class="staffdelete" style="display:none;"></a>
+                        </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+var url = '{{ request.get_host }}';
+function deleteMyData(id)
+{
+    swal({
+    title: 'Are you sure?',
+    text: "Do you want to delete this chef!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonClass: 'btn btn-success',
+    cancelButtonClass: 'btn btn-danger',
+    confirmButtonText: 'Yes',
+    buttonsStyling: false
+
+    }).then(function() {
+        $.ajax({
+            url: '/delete_staff/'+id+'/',
+            method:"get",
+        success:function(data)
+        { 
+            var message = 'Detail has been deleted successfully.';
+            demo.showNotification('bottom','right','success', message );
+            setTimeout(function(){
+               window.location.reload(1);
+            }, 1000);
+                              
+        },
+        error:function(er){
+            console.log(er); 
+        }
+
+    }); 
+
+    });
+}
+
+</script>
+<script>
+  document.getElementById("manage_staff-li").classList.add("active");
+</script>
 
   {% endblock main_content %}

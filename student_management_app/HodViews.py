@@ -1,3 +1,4 @@
+from distutils.command.build_scripts import first_line_re
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
@@ -5,6 +6,7 @@ from django.core.files.storage import FileSystemStorage #To upload Profile Pictu
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 
 from student_management_app.models import CustomUser, Staffs, Courses, Subjects, Students, SessionYearModel, FeedBackStudent, FeedBackStaffs, LeaveReportStudent, LeaveReportStaff, Attendance, AttendanceReport
@@ -72,7 +74,7 @@ def admin_home(request):
         "all_student_count": all_student_count,
         "subject_count": subject_count,
         "course_count": course_count,
-        "staff_count": staff_count,
+        "staff_count": staff_count, 
         "course_name_list": course_name_list,
         "subject_count_list": subject_count_list,
         "student_count_list_in_course": student_count_list_in_course,
@@ -94,8 +96,10 @@ def add_staff(request):
 
 def add_staff_save(request):
     if request.method != "POST":
+        response = {}
         messages.error(request, "Invalid Method ")
         return redirect('add_staff')
+
     else:
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -103,7 +107,7 @@ def add_staff_save(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         address = request.POST.get('address')
-
+        
         try:
             user = CustomUser.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, user_type=2)
             user.staffs.address = address
@@ -148,6 +152,7 @@ def edit_staff_save(request):
         try:
             # INSERTING into Customuser Model
             user = CustomUser.objects.get(id=staff_id)
+
             user.first_name = first_name
             user.last_name = last_name
             user.email = email
@@ -177,8 +182,6 @@ def delete_staff(request, staff_id):
     except:
         messages.error(request, "Failed to Delete Staff.")
         return redirect('manage_staff')
-
-
 
 
 def add_course(request):
@@ -322,8 +325,18 @@ def delete_session(request, session_id):
 
 def add_student(request):
     form = AddStudentForm()
+    course_list = Courses.objects.all()
+    session_years = SessionYearModel.objects.all()
+
+    session_year_list = []
+    for session_year in session_years:
+        single_session_year = (session_year.id, str(session_year.session_start_year)+" to "+str(session_year.session_end_year))
+        session_year_list.append(single_session_year)
+
     context = {
-        "form": form
+        "form": form,
+        "course_list":course_list,
+        "session_years":session_years
     }
     return render(request, 'hod_template/add_student_template.html', context)
 
@@ -384,6 +397,17 @@ def add_student_save(request):
 
 def manage_student(request):
     students = Students.objects.all()
+    
+    students_list = Students.objects.all()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(students_list, 2)
+    try:
+        students = paginator.page(page)
+    except PageNotAnInteger:
+        students = paginator.page(1)
+    except EmptyPage:
+        students = paginator.page(paginator.num_pages)
     context = {
         "students": students
     }
@@ -393,8 +417,9 @@ def manage_student(request):
 def edit_student(request, student_id):
     # Adding Student ID into Session Variable
     request.session['student_id'] = student_id
-
+    course = Courses.objects.all()
     student = Students.objects.get(admin=student_id)
+    session_years = SessionYearModel.objects.all()
     form = EditStudentForm()
     # Filling the form with Data from Database
     form.fields['email'].initial = student.admin.email
@@ -409,6 +434,9 @@ def edit_student(request, student_id):
     context = {
         "id": student_id,
         "username": student.admin.username,
+        "student":student,
+        "course_list":course,
+        "session_years":session_years,
         "form": form
     }
     return render(request, "hod_template/edit_student_template.html", context)

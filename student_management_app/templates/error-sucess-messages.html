@@ -1,0 +1,29 @@
+
+{% comment %} Display Messages {% endcomment %}
+{% if messages %}
+    {% for message in messages %}
+      {% if message.tags == "success" %}
+        <div class="col-lg-12 margin-tb">
+            <script type="text/javascript">
+                $( document ).ready(function() {
+                    demo.showNotification('bottom','right','success', '{{ message }}');
+                });
+            </script>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    {% for message in messages %}
+      {% if message.tags == "error" %}
+        <div class="col-lg-12 margin-tb">
+            <script type="text/javascript">
+                $( document ).ready(function() {
+                    demo.showNotification('bottom','right','danger', '{{ message }}');
+                });
+            </script>
+        </div>
+      {% endif %}
+    {% endfor %}
+{% endif %}
+
+

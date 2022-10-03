@@ -7,69 +7,72 @@
 {% block main_content %}
 
 {% load static %}
+{% include 'error-sucess-messages.html' %}
+<div class="content">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
 
-<section class="content">
-        <div class="container-fluid">
-
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Student Feedback</h3>
-                        </div>
-                        <!-- /.card-header -->
-
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Student ID</th>
-                                    <th>Student Name</th>
-                                    <th>Student Session</th>
-                                    <th>Message</th>
-                                    <th>Sended On</th>
-                                    <th>Reply</th>
-                                </tr>
-                                </thead>
-
-                                {% for feedback in feedbacks %}
-                                <tbody>
-                                <tr>
-                                    <td>{{ feedback.id }}</td>
-                                    <td>{{ feedback.student_id.admin.id }}</td>
-                                    <td>{{ feedback.student_id.admin.first_name }} {{ feedback.student_id.admin.last_name }}</td>
-                                    <td>{{ feedback.student_id.session_year_id.session_start_year }} - {{ feedback.student_id.session_year_id.session_end_year }}</td>
-                                    <td>{{ feedback.feedback }}</td>
-                                    <td>{{ feedback.created_at }}</td>
-                                    <td>
-                                        {% if feedback.feedback_reply == "" %}
-                                            <button class="btn btn-success reply_open_modal" data-toggle="modal" data-target="#replyModal">Reply</button>
-                                        {% else %}
-                                            {{ feedback.feedback_reply }}
-                                        {% endif %}
-                                        
-                                    </td>
-                                </tr>
-                                </tbody>
-                                {% endfor %}
-
-                            </table>
-                        </div>
-                    
-                    </div>
-                    <!-- /.card -->
-
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-rose card-header-icon mb-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card-icon">
+                    <i class="material-icons">assignment</i>
+                  </div>
+                  <h4 class="card-title">Student Feedback</h4>
                 </div>
+              </div>
+              
             </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table" id="datatables">
+                  <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Student Session</th>
+                        <th>Message</th>
+                        <th>Sended On</th>
+                        <th>Reply</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                     {% for feedback in feedbacks %}
+                        <tr>
+                            <td>{{ feedback.id }}</td>
+                            <td>{{ feedback.student_id.admin.id }}</td>
+                            <td>{{ feedback.student_id.admin.first_name }} {{ feedback.student_id.admin.last_name }}</td>
+                            <td>{{ feedback.student_id.session_year_id.session_start_year }} - {{ feedback.student_id.session_year_id.session_end_year }}</td>
+                            <td>{{ feedback.feedback }}</td>
+                            <td>{{ feedback.created_at }}</td>
+                        <td class="td-actions">
+                            {% if feedback.feedback_reply == "" %}
+                                <button class="btn btn-success reply_open_modal" data-toggle="modal" data-target="#replyModal">Reply</button>
+                            {% else %}
+                                {{ feedback.feedback_reply }}
+                            {% endif %}
+                        </td>
 
-        </div><!-- /.container-fluid -->
-      </section>
+                </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      {% comment %} Modal to Reply Feedback {% endcomment %}
+      </div>
+    </div>
+  </div>
+</div>
+{% comment %} Modal to Reply Feedback {% endcomment %}
       <!-- Modal -->
-        <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
@@ -90,66 +93,68 @@
             </div>
         </div>
         </div>
-
-  {% endblock main_content %}
+<script>
+  document.getElementById("student-feedback-li").classList.add("active");
+</script>
+{% endblock main_content %}
 
   {% comment %} Custom JS to Identify the Reply and Post Reply {% endcomment %}
 
   {% block custom_js %}
-    <script>
-        $(document).ready(function(){
-            $(".reply_open_modal").click(function(){
-                // Getting Value from Table
-                var id = $(this).parents("tr").children("td:eq(0)").text(); //Getting Selected Row ID (Frist Column)
-                var name = $(this).parents("tr").children("td:eq(2)").text(); //Getting Selected Name (3rd Column)
+  <script>
+    $(document).ready(function(){
+        $(".reply_open_modal").click(function(){
+            // Getting Value from Table
+            var id = $(this).parents("tr").children("td:eq(0)").text(); //Getting Selected Row ID (Frist Column)
+            var name = $(this).parents("tr").children("td:eq(2)").text(); //Getting Selected Name (3rd Column)
+            
+            // Adding the Value from Table to Modal form
+            $("#reply_id").val(id);
+            $("#reply_name").text(name);
+        });
+
+        $(document).on("click", "#reply_button", function(){
+            //Disabling the Button while data is being saved in Server
+            $(this).attr("disabled", "disabled")
+            $(this).text("Sending Reply...")
+
+            //console.log("SAVE")
+            
+
+            var id=$("#reply_id").val();
+            var reply=$("#reply_message").val();
+            //console.log(student_data);
+
+            // Saving Attendance Data into Database
+
+            $.ajax({
+                url:'{% url 'student_feedback_message_reply' %}',
+                type:'POST',
+                data:{id:id, reply:reply},
+            })
+
+            
+            .done(function(response){
                 
-                // Adding the Value from Table to Modal form
-                $("#reply_id").val(id);
-                $("#reply_name").text(name);
-            });
-
-            $(document).on("click", "#reply_button", function(){
-                //Disabling the Button while data is being saved in Server
-                $(this).attr("disabled", "disabled")
-                $(this).text("Sending Reply...")
-
-                //console.log("SAVE")
+                if(response=="True")
+                {
+                    alert("Reply Sent!")
+                }
+                else
+                {
+                    alert("Failed to Send Reply!")
+                }
+                location.reload()
                 
+                //console.log(response)
+            })
 
-                var id=$("#reply_id").val();
-                var reply=$("#reply_message").val();
-                //console.log(student_data);
-
-                // Saving Attendance Data into Database
-
-                $.ajax({
-                    url:'{% url 'student_feedback_message_reply' %}',
-                    type:'POST',
-                    data:{id:id, reply:reply},
-                })
-
-                
-                .done(function(response){
-                    
-                    if(response=="True")
-                    {
-                        alert("Reply Sent!")
-                    }
-                    else
-                    {
-                        alert("Failed to Send Reply!")
-                    }
-                    location.reload()
-                    
-                    //console.log(response)
-                })
-
-                .fail(function(){
-                    alert("Error in Sending Feedback Reply.")
-                })
-
+            .fail(function(){
+                alert("Error in Sending Feedback Reply.")
             })
 
         })
-    </script>
-  {% endblock custom_js %}
+
+    })
+</script>
+{% endblock custom_js %}

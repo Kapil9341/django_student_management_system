@@ -7,67 +7,96 @@
 {% block main_content %}
 
 {% load static %}
+{% include 'error-sucess-messages.html' %}
+<div class="content">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
 
-<section class="content">
-        <div class="container-fluid">
-
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Staff Feedback</h3>
-                        </div>
-                        <!-- /.card-header -->
-
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Staff ID</th>
-                                    <th>Staff Name</th>
-                                    <th>Message</th>
-                                    <th>Sended On</th>
-                                    <th>Reply</th>
-                                </tr>
-                                </thead>
-
-                                {% for feedback in feedbacks %}
-                                <tbody>
-                                <tr>
-                                    <td>{{ feedback.id }}</td>
-                                    <td>{{ feedback.staff_id.admin.id }}</td>
-                                    <td>{{ feedback.staff_id.admin.first_name }} {{ feedback.staff_id.admin.last_name }}</td> 
-                                    <td>{{ feedback.feedback }}</td>
-                                    <td>{{ feedback.created_at }}</td>
-                                    <td>
-                                        {% if feedback.feedback_reply == "" %}
-                                            <button class="btn btn-success reply_open_modal" data-toggle="modal" data-target="#replyModal">Reply</button>
-                                        {% else %}
-                                            {{ feedback.feedback_reply }}
-                                        {% endif %}
-                                        
-                                    </td>
-                                </tr>
-                                </tbody>
-                                {% endfor %}
-
-                            </table>
-                        </div>
-                    
-                    </div>
-                    <!-- /.card -->
-
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-rose card-header-icon mb-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card-icon">
+                    <i class="material-icons">assignment</i>
+                  </div>
+                  <h4 class="card-title">Staff Feedback</h4>
                 </div>
+              </div>
+              
             </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table" id="datatables">
+                  <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Staff ID</th>
+                        <th>Staff Name</th>
+                        <th>Message</th>
+                        <th>Sended On</th>
+                        <th>Reply</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                     {% for feedback in feedbacks %}
+                        <tr>
+                            <td>{{ feedback.id }}</td>
+                            <td>{{ feedback.staff_id.admin.id }}</td>
+                            <td>{{ feedback.staff_id.admin.first_name }} {{ feedback.staff_id.admin.last_name }}</td> 
+                            <td>{{ feedback.feedback }}</td>
+                            <td>{{ feedback.created_at }}</td>
+                        <td class="td-actions text-right">
+                            {% if feedback.feedback_reply == "" %}
+                                <button class="btn btn-success reply_open_modal" data-toggle="modal" data-target="#replyModal">Reply</button>
+                            {% else %}
+                                {{ feedback.feedback_reply }}
+                            {% endif %}
+                        </td>
 
-        </div><!-- /.container-fluid -->
-      </section>
+                </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      {% comment %} Modal to Reply Feedback {% endcomment %}
+      </div>
+    </div>
+  </div>
+</div>
+{% comment %} Modal to Reply Feedback {% endcomment %}
       <!-- Modal -->
-        <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reply Feedback</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Reply to: <b><span id="reply_name"></span></b></p>
+                <input type="hidden" id="reply_id" name="reply_id" />
+                <textarea class="form-control" rows="5" id="reply_message"></textarea>
+            </div>
+            <div class="modal-footer">
+                {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> {% endcomment %}
+                <button type="button" class="btn btn-primary btn-block" id="reply_button">Reply</button>
+            </div>
+            </div>
+        </div>
+        </div>
+<script>
+  document.getElementById("staff-feedback-li").classList.add("active");
+</script>
+{% comment %} Modal to Reply Feedback {% endcomment %}
+      <!-- Modal -->
+      <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
